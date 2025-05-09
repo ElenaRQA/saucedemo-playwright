@@ -1,0 +1,21 @@
+{
+  "name": "saucedemo-playwright",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test:login": "npx playwright test src/tests/login.spec.ts",
+    "test:items": "npx playwright test src/tests/items.spec.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@faker-js/faker": "^9.7.0",
+    "@playwright/test": "^1.52.0",
+    "dotenv": "^16.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.17"
+  }
+}
