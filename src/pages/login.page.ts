@@ -1,10 +1,10 @@
 import { Page } from "@playwright/test";
+import { Person } from "../dto/person.dto";
 
 const usernameInput = '[data-test="username"]';
 const passwordInput = '[data-test="password"]';
 const loginButton = '[data-test="login-button"]';
 const errorMessage = '[data-test="error"]';
-const inventoryItem = '[data-test="inventory_item"]';
 
 export class LoginPage {
   constructor(private page: Page) {}
@@ -19,11 +19,17 @@ export class LoginPage {
     await this.page.click(loginButton);
   }
 
-  async errorIsVisible() {
-    await this.page.waitForSelector(errorMessage);
+  async loginWithDTO(user: Person) {
+    await this.login(user.username, user.password);
   }
 
-  async inventoryIsVisible() {
-    await this.page.waitForSelector(inventoryItem);
+  async loginWithoutCreds() {
+    await this.page.fill(usernameInput, "");
+    await this.page.fill(passwordInput, "");
+    await this.page.click(loginButton);
+  }
+
+  getLoginError() {
+    return this.page.locator(errorMessage);
   }
 }

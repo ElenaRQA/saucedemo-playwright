@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test:login": "npx playwright test src/tests/login.spec.ts",
-    "test:items": "npx playwright test src/tests/items.spec.ts"
+    "test:items": "npx playwright test src/tests/items.spec.ts",
+    "test:checkout": "npx playwright test src/tests/checkout.spec.ts"
   },
   "keywords": [],
   "author": "",

@@ -1,17 +1,33 @@
-import { test } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import { Facade } from "../facade/facade.page";
-import { FakerDTO } from "../dto/faker.dto";
+import { PersonDTO, getPerson } from "../dto/person.dto";
+import { LoginPage } from "../pages/login.page";
 
-test("Login and verify inventory", async ({ page }) => {
-  const facade = new Facade(page);
-  await facade.loginAndVerify();
-});
+test.describe("Login page tests", () => {
+  let loginPage: LoginPage;
 
-test("Login fails with random invalid credentials", async ({ page }) => {
-  const facade = new Facade(page);
-  const randomUsername = FakerDTO.username;
-  const randomPassword = FakerDTO.password;
+  test.beforeEach(async ({ page }) => {
+    loginPage = new LoginPage(page);
+    await loginPage.goto();
+  });
 
-  console.log("Attempting login with:", randomUsername, randomPassword);
-  await facade.loginWithRandomCredentials(randomUsername, randomPassword);
+  test("Login and verify inventory via Facade", async ({ page }) => {
+    const facade = new Facade(page);
+    await facade.loginAndCheckItemIsVisible(PersonDTO);
+  });
+
+  test("Login with blank fields", async () => {
+    await loginPage.loginWithoutCreds();
+    await expect(loginPage.getLoginError()).toContainText(
+      "Epic sadface: Username is required"
+    );
+  });
+
+  test("Login with random user to get an error", async () => {
+    const fakeUser = getPerson();
+    await loginPage.login(fakeUser.username, fakeUser.password);
+    await expect(loginPage.getLoginError()).toContainText(
+      "Epic sadface: Username and password do not match any user"
+    );
+  });
 });

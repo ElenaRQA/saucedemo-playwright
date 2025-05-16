@@ -1,50 +1,19 @@
-import { LoginPage } from "../pages/login.page";
-import { ItemsPage } from "../pages/items.page";
-import { Page } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
+import { PageFactory } from "../factory/page.factory";
+import { Person } from "../dto/person.dto";
 
 export class Facade {
-  constructor(private page: Page) {}
+  page: Page;
+  pageFactory: PageFactory;
 
-  async loginAndVerify() {
-    const loginPage = new LoginPage(this.page);
-    const itemsPage = new ItemsPage(this.page);
-
-    await loginPage.goto();
-    await loginPage.login(
-      process.env.SAUCE_USERNAME!,
-      process.env.SAUCE_PASSWORD!
-    );
-    await itemsPage.inventoryIsVisible();
+  constructor(page: Page) {
+    this.page = page;
+    this.pageFactory = new PageFactory(page);
   }
 
-  async loginWithRandomCredentials(username: string, password: string) {
-    const loginPage = new LoginPage(this.page);
-
-    console.log("Attempting login with:", username, password);
-
-    await loginPage.goto();
-    await loginPage.login(username, password);
-    await loginPage.errorIsVisible();
-  }
-
-  async addItemToCart() {
-    const itemsPage = new ItemsPage(this.page);
-    await itemsPage.addItemToCart();
-  }
-
-  async removeItemFromCart() {
-    const itemsPage = new ItemsPage(this.page);
-    await itemsPage.goToCart();
-    await itemsPage.removeItemFromCart();
-  }
-
-  async checkCartItemCount(count: number) {
-    const itemsPage = new ItemsPage(this.page);
-    await itemsPage.checkCartItemCount(count);
-  }
-
-  async cartIsEmpty() {
-    const itemsPage = new ItemsPage(this.page);
-    await itemsPage.cartIsEmpty();
+  async loginAndCheckItemIsVisible(user: Person) {
+    await this.pageFactory.loginPage.goto();
+    await this.pageFactory.loginPage.loginWithDTO(user);
+    await expect(this.pageFactory.itemsPage.inventoryTitle()).toBeVisible();
   }
 }
