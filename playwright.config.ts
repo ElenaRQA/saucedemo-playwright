@@ -21,7 +21,7 @@ export default defineConfig({
       name: "Desktop Chrome",
       use: {
         ...devices["Desktop Chrome"],
-        launchOptions: { slowMo: 1000 },
+        launchOptions: { slowMo: 0 },
         viewport: { width: 1280, height: 720 },
       },
     },
@@ -29,7 +29,7 @@ export default defineConfig({
       name: "Desktop Firefox",
       use: {
         ...devices["Desktop Firefox"],
-        launchOptions: { slowMo: 500 },
+        launchOptions: { slowMo: 0 },
         viewport: { width: 1280, height: 720 },
       },
     },
