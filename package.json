@@ -3,9 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "test": "npx playwright test",
     "test:login": "npx playwright test src/tests/login.spec.ts",
     "test:items": "npx playwright test src/tests/items.spec.ts",
-    "test:checkout": "npx playwright test src/tests/checkout.spec.ts"
+    "test:checkout": "npx playwright test src/tests/checkout.spec.ts",
+    "test:e2e": "npx playwright test src/tests/e2e.spec.ts",
+    "test:desktop": "npx playwright test --config=playwright.config.ts --headed",
+    "test:mobile": "npx playwright test --config=playwright.mobile.config.ts --headed",
+    "test:all": "npm run test:desktop && npm run test:mobile"
   },
   "keywords": [],
   "author": "",

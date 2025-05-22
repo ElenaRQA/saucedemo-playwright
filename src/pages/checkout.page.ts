@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Page, Locator } from "@playwright/test";
 import { ICheckoutDTO } from "../dto/person.dto";
 
 const checkoutButton = '[data-test="checkout"]';
@@ -8,6 +8,7 @@ const postalCodeInput = '[data-test="postalCode"]';
 const continueButton = '[data-test="continue"]';
 const finishButton = '[data-test="finish"]';
 const errorMessage = '[data-test="error"]';
+const completeContainer = '[data-test="checkout-complete-container"]';
 
 export class CheckoutPage {
   constructor(private page: Page) {}
@@ -32,5 +33,21 @@ export class CheckoutPage {
 
   getCheckoutError() {
     return this.page.locator(errorMessage);
+  }
+
+  getFirstNameField(): Locator {
+    return this.page.locator(firstNameInput);
+  }
+
+  getLastNameField(): Locator {
+    return this.page.locator(lastNameInput);
+  }
+
+  getPostalCodeField(): Locator {
+    return this.page.locator(postalCodeInput);
+  }
+
+  getCompleteContainer(): Locator {
+    return this.page.locator(completeContainer);
   }
 }

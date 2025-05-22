@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export default defineConfig({
-  name: "desktop-suite",
+  name: "mobile-suite",
   timeout: 30000,
   retries: 1,
   testDir: "./src/tests",
@@ -12,26 +12,18 @@ export default defineConfig({
   reporter: "html",
   use: {
     baseURL: process.env.BASE_URL,
-    headless: false,
+    headless: true,
     screenshot: "only-on-failure",
     video: "retain-on-failure",
   },
   projects: [
     {
-      name: "Desktop Chrome",
-      use: {
-        ...devices["Desktop Chrome"],
-        launchOptions: { slowMo: 1000 },
-        viewport: { width: 1280, height: 720 },
-      },
+      name: "Mobile Safari",
+      use: devices["iPhone 13"],
     },
     {
-      name: "Desktop Firefox",
-      use: {
-        ...devices["Desktop Firefox"],
-        launchOptions: { slowMo: 500 },
-        viewport: { width: 1280, height: 720 },
-      },
+      name: "Mobile Chrome",
+      use: devices["Pixel 5"],
     },
   ],
 });

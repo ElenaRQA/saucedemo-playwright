@@ -16,6 +16,7 @@ const burgerMenuButton = "#react-burger-menu-btn";
 const allItemsLink = '[data-test="inventory-sidebar-link"]';
 const resetAppStateLink = '[data-test="reset-sidebar-link"]';
 const backToProductsButton = '[data-test="back-to-products"]';
+const closeMenuButton = "#react-burger-cross-btn";
 
 export class ItemsPage {
   constructor(private page: Page) {}
@@ -73,6 +74,7 @@ export class ItemsPage {
   async checkResetAppState() {
     await this.page.click(burgerMenuButton);
     await this.page.click(resetAppStateLink);
+    await this.page.click(closeMenuButton);
   }
 
   async selectSortOption(value: string) {
@@ -86,5 +88,9 @@ export class ItemsPage {
   async getItemPrices(): Promise<number[]> {
     const priceStrings = await this.page.locator(itemPrice).allInnerTexts();
     return priceStrings.map((text) => parseFloat(text.replace("$", "")));
+  }
+
+  async addAnother(itemId: string) {
+    await this.page.click(`[data-test="add-to-cart-${itemId}"]`);
   }
 }
